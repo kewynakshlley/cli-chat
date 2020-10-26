@@ -18,15 +18,19 @@ let users = [];
 
 function join(call, callback) {
   users.push(call);
+
   notifyChat({ user: "Server", text: "new user joined ..." });
 }
 
 
 function send(call, callback) {
+
+
   notifyChat(call.request);
 }
 
 function notifyChat(message) {
+  console.log(message.grpc_channel)
   users.forEach(user => {
     user.write(message);
   });
@@ -35,5 +39,7 @@ function notifyChat(message) {
 server.addService(proto.Chat.service, { join: join, send: send });
 
 server.bind(SERVER_ADDRESS, grpc.ServerCredentials.createInsecure());
+
+console.log("Server running on "+SERVER_ADDRESS)
 
 server.start();

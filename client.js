@@ -2,6 +2,10 @@ var grpc = require("grpc");
 var protoLoader = require("@grpc/proto-loader");
 var readline = require("readline");
 
+const REMOTE_SERVER = "0.0.0.0:5001";
+
+let username;
+let channelNumber;
 
 var rl = readline.createInterface({
     input: process.stdin,
@@ -18,10 +22,9 @@ var proto = grpc.loadPackageDefinition(
     })
 );
 
-const REMOTE_SERVER = "0.0.0.0:5001";
 
-let username;
-let channelNumber;
+
+
 
 
 let client = new proto.Chat(
@@ -31,21 +34,23 @@ let client = new proto.Chat(
 
 
 function startChat() {
-    let channel = client.join({ user: username });
+    let channel = client.join({ user: username, grpc_channel: channelNumber });
 
     channel.on("data", onData);
 
     rl.on("line", function (text) {
-        client.send({ user: username, text: text }, res => { });
+        client.send({ user: username, text: text, grpc_channel: channelNumber}, res => { });
     });
 }
 
 
 function onData(message) {
+
     if (message.user == username) {
         return;
     }
-    console.log(`${message.user}: ${message.text}`);
+
+    console.log(`${message.user}(${message.grpc_channel}): ${message.text}`);
 }
 
 
