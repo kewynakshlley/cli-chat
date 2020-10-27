@@ -14,3 +14,9 @@ node client.js (run it 2x or more. Each running client represents a person on th
 
 * [Nodejs](https://nodejs.org/en/) - Client-side framework used
 * [grpc](https://www.npmjs.com/package/grpc) - Remote procedure call system
+
+## Tutorials used
+
+https://medium.com/@Mark.io/bi-directional-streaming-grpc-with-node-js-and-java-7cbe0f1e0693
+
+https://techblog.fexcofts.com/2018/07/20/grpc-nodejs-chat-example/
